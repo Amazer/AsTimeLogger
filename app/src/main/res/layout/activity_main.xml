@@ -10,12 +10,37 @@
             android:onClick="DateClick"
             android:text="date"
             />
-        <ListView
-            android:id="@+id/list"
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-        </ListView>
+            android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                        <ListView
+                            android:id="@+id/list"
+                            android:layout_gravity="left"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="80dp"
+                            >
+                        </ListView>
+
+                        <ListView
+                            android:id="@+id/eventlist"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            >
+
+                        </ListView>
+                </LinearLayout>
+
+        </RelativeLayout>
+
 </LinearLayout>
 
 

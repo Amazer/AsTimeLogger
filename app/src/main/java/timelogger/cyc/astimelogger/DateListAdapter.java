@@ -16,12 +16,13 @@ import java.util.ArrayList;
 public class DateListAdapter extends BaseAdapter {
 
     private ArrayList<String> data;
-    private  static LayoutInflater inflater=null;
-    public  DateListAdapter(Context context,ArrayList<String> d)
-    {
-        data=d;
-        inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    private LayoutInflater inflater = null;
+
+    public DateListAdapter(Context context, ArrayList<String> d) {
+        data = d;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
     @Override
     public int getCount() {
         return data.size();
@@ -38,23 +39,21 @@ public class DateListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup)
-    {
-        View vi=view;
-        if(vi==null)
-        {
-            vi=inflater.inflate(R.layout.listview_item,null);
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        View vi = view;
+        if (vi == null) {
+            vi = inflater.inflate(R.layout.listview_item, null);
         }
-        TextView t0=(TextView)vi.findViewById(R.id.text0);
-        TextView t1=(TextView)vi.findViewById(R.id.text1);
-        TextView t2=(TextView)vi.findViewById(R.id.text2);
-        TextView t3=(TextView)vi.findViewById(R.id.text3);
+        TextView t0 = (TextView) vi.findViewById(R.id.text0);
+        TextView t1 = (TextView) vi.findViewById(R.id.text1);
+        TextView t2 = (TextView) vi.findViewById(R.id.text2);
+        TextView t3 = (TextView) vi.findViewById(R.id.text3);
 
-        String s=data.get(i);
-        t0.setText(s+"0");
-        t1.setText(s+"1");
-        t2.setText(s+"2");
-        t3.setText(s+"3");
+        String s = data.get(i);
+        t0.setText(s + "0");
+        t1.setText(s + "1");
+        t2.setText(s + "2");
+        t3.setText(s + "3");
 
         return vi;
     }

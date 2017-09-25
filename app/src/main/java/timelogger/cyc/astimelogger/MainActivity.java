@@ -10,14 +10,24 @@ import java.util.ArrayList;
 
 public class MainActivity extends Activity {
     private ListView _list;
-    private View _listItem;
     private DateListAdapter _listAdapter;
     private ArrayList<String> _dataList;
+
+    private ListView _eventList;
+    private EventListAdapter _eventListAdapter;
+    private ArrayList<String> _eventDataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        InitDateListView();
+        InitEventListView();
+
+    }
+    private  void InitDateListView()
+    {
+        // date list
         _list = (ListView) findViewById(R.id.list);
 
         _dataList = new ArrayList<String>();
@@ -34,5 +44,18 @@ public class MainActivity extends Activity {
 
             }
         });
+
+    }
+    private  void  InitEventListView()
+    {
+        _eventList=(ListView)findViewById(R.id.eventlist);
+        _eventDataList=new ArrayList<String>();
+        for(int i=0,imax=5;i<imax;++i)
+        {
+            _eventDataList.add("event "+i);
+        }
+
+        _eventListAdapter=new EventListAdapter(this,_eventDataList);
+        _eventList.setAdapter(_eventListAdapter);
     }
 }
