@@ -40,21 +40,33 @@ public class DateListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        ViewHolder holder;
         View vi = view;
         if (vi == null) {
             vi = inflater.inflate(R.layout.listview_item, null);
+            holder=new ViewHolder();
+            holder.v0 = (TextView) vi.findViewById(R.id.text0);
+            holder.v1 = (TextView) vi.findViewById(R.id.text1);
+            holder.v2 = (TextView) vi.findViewById(R.id.text2);
+            holder.v3 = (TextView) vi.findViewById(R.id.text3);
         }
-        TextView t0 = (TextView) vi.findViewById(R.id.text0);
-        TextView t1 = (TextView) vi.findViewById(R.id.text1);
-        TextView t2 = (TextView) vi.findViewById(R.id.text2);
-        TextView t3 = (TextView) vi.findViewById(R.id.text3);
-
+        else
+        {
+            holder=(ViewHolder)vi.getTag();
+        }
         String s = data.get(i);
-        t0.setText(s + "0");
-        t1.setText(s + "1");
-        t2.setText(s + "2");
-        t3.setText(s + "3");
+        holder.v0.setText(s + "0");
+        holder.v1.setText(s + "1");
+        holder.v2.setText(s + "2");
+        holder.v3.setText(s + "3");
 
         return vi;
+    }
+
+    public final class ViewHolder {
+        public TextView v0;
+        public TextView v1;
+        public TextView v2;
+        public TextView v3;
     }
 }

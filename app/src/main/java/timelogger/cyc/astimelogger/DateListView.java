@@ -15,7 +15,4 @@ public class DateListView extends ListActivity {
         public TextView v2;
         public TextView v3;
     }
-
-
-
 }
