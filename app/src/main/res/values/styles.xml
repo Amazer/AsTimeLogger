@@ -22,7 +22,7 @@
 
     <!-- 横向分布 -->
     <style name="layout_horizontal" parent="layout_full">
-        <item name="android:layout_width">0px</item>
+        <item name="android:layout_width">2px</item>
     </style>
 
     <!-- 纵向分布 -->

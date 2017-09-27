@@ -3,24 +3,61 @@
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent">
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:weightSum="1">
         <TextView
             android:id="@+id/date"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="DateClick"
-            android:text="date"
+            android:text="this is"
+            android:layout_gravity="center"
+            android:layout_marginLeft="100dp"
+            android:textSize="20pt"
             />
 
-        <LinearLayout
-            style="@style/layout_horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnToday"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center"
+            android:text="tody"/>
+
+        <Button
+            android:id="@+id/btnMenu"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:text="=="
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+            style="@style/layout_full"
+            android:layout_weight="1"
+            >
+                <LinearLayout
+                    style="@style/layout_full"
+                    android:orientation="vertical"
+                    android:layout_weight="4"
+                    >
                 <TextView
                     android:id="@+id/curDate"
+                    android:text="ssss"
                     style="@style/layout_full"
                     android:layout_weight="4"
                     />
+                    <TextView
+                        android:id="@+id/itemdate"
+                        android:text="ppp"
+                        style="@style/layout_full"
+                        android:layout_weight="4"
+                        />
+
+                </LinearLayout>
                 <ListView
                     style="@style/layout_full"
                     android:id="@+id/list"
