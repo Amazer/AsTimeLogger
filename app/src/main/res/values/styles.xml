@@ -22,12 +22,21 @@
 
     <!-- 横向分布 -->
     <style name="layout_horizontal" parent="layout_full">
-        <item name="android:layout_width">2px</item>
+        <item name="android:layout_width">0px</item>
+
     </style>
 
     <!-- 纵向分布 -->
     <style name="layout_vertical" parent="layout_full">
         <item name="android:layout_height">0px</item>
+    </style>
+
+    <!-- LinearLayout横向分布 -->
+    <style name="linear_layout_horizontal" parent="layout_full">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:orientation">horizontal</item>
+
     </style>
 
 </resources>

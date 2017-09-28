@@ -1,11 +1,13 @@
 package timelogger.cyc.astimelogger;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
@@ -23,6 +25,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         InitDateListView();
         InitEventListView();
+        ActionBar actionBar=getActionBar();
+        actionBar.show();
 
     }
     private  void InitDateListView()

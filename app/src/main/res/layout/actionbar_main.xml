@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <LinearLayout
+        style="@style/linear_layout_horizontal"
+        >
+        <TextView
+            style="@style/layout_wrap"
+            android:text="2017年9月"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="buttonT"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
