@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
                         // 滑动的时候
                         // 1.获取第一个可见item，并获取其date数据，以及pos信息
                         // 2.根据位置推算出下一个改变日期的item pos,并且刷新 otherDateTextView的位置信息
-                        int firstVisiblePosition = _dateList.getFirstVisiblePosition();
+//                        int firstVisiblePosition = _dateList.getFirstVisiblePosition();
                     }
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:            // 手指离开或者惯性滑动停止
