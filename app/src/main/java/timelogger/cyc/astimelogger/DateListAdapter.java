@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -44,29 +45,33 @@ public class DateListAdapter extends BaseAdapter {
         View vi = view;
         if (vi == null) {
             vi = inflater.inflate(R.layout.listview_item, null);
-            holder=new ViewHolder();
-            holder.v0 = (TextView) vi.findViewById(R.id.text0);
-            holder.v1 = (TextView) vi.findViewById(R.id.text1);
-            holder.v2 = (TextView) vi.findViewById(R.id.text2);
-            holder.v3 = (TextView) vi.findViewById(R.id.text3);
+            holder = new ViewHolder();
+            holder.hour = (TextView) vi.findViewById(R.id.hour);
+            holder.v0 = (Button) vi.findViewById(R.id.text0);
+            holder.v1 = (Button) vi.findViewById(R.id.text1);
+            holder.v2 = (Button) vi.findViewById(R.id.text2);
+            holder.v3 = (Button) vi.findViewById(R.id.text3);
+            vi.setTag(holder);      // 把 holder 记到vi中
+        } else {
+            vi = view;
+            holder = (ViewHolder) vi.getTag();      // 取出存储过的 holder
         }
-        else
-        {
-            holder=(ViewHolder)vi.getTag();
+        if (holder != null) {
+            String s = data.get(i);
+            holder.hour.setText(s);
+            holder.v0.setText("0");
+            holder.v1.setText("1");
+            holder.v2.setText("2");
+            holder.v3.setText("3");
         }
-        String s = data.get(i);
-        holder.v0.setText(s + "0");
-        holder.v1.setText(s + "1");
-        holder.v2.setText(s + "2");
-        holder.v3.setText(s + "3");
-
         return vi;
     }
 
     public final class ViewHolder {
-        public TextView v0;
-        public TextView v1;
-        public TextView v2;
-        public TextView v3;
+        public TextView hour;
+        public Button v0;
+        public Button v1;
+        public Button v2;
+        public Button v3;
     }
 }
