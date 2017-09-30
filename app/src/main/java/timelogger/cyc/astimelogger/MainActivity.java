@@ -33,6 +33,7 @@ public class MainActivity extends Activity {
     private void InitDateListView() {
         // date list
         _dateList = (ListView) findViewById(R.id.list);
+        _dateList.setDividerHeight(0);
 
         _dataList = new ArrayList<String>();
         for (int i = 0, imax = 24; i < imax; ++i) {
@@ -41,6 +42,8 @@ public class MainActivity extends Activity {
 
         _dateListAdapter = new DateListAdapter(this, _dataList);
         _dateList.setAdapter(_dateListAdapter);
+
+        _dateList.setSelection(5);     // 哪个条目作为第一个
 
 //        _dateList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
