@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         _curDateView = (TextView) findViewById(R.id.curDate);
         LoggerDate date = DateCalculator.GetCurDate();
-        _curDateView.setText(date.day + "\n" + date.week);
+        _curDateView.setText(date.day + "\n星期" + date.week);
         //        ActionBar actionBar = getActionBar();
         //        actionBar.show();
         InitDateListView();

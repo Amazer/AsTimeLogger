@@ -48,7 +48,7 @@
                     >
                 <TextView
                     android:id="@+id/curDate"
-                    android:text="ssss"
+                    android:text="sss\naaaa"
                     style="@style/layout_full"
                     android:layout_weight="4"
                     />
