@@ -55,16 +55,17 @@ public class DateListAdapter extends BaseAdapter {
             holder.v1 = (Button) vi.findViewById(R.id.text1);
             holder.v2 = (Button) vi.findViewById(R.id.text2);
             holder.v3 = (Button) vi.findViewById(R.id.text3);
-            holder.v0.setOnClickListener(new QuaterHourOnClickListener());
-            holder.v1.setOnClickListener(new QuaterHourOnClickListener());
-            holder.v2.setOnClickListener(new QuaterHourOnClickListener());
-            holder.v3.setOnClickListener(new QuaterHourOnClickListener());
+            holder.v0.setOnClickListener(new QuaterHourOnClickListener(holder,QuaterHourOnClickListener.QuaterHourType.View0));
+            holder.v1.setOnClickListener(new QuaterHourOnClickListener(holder,QuaterHourOnClickListener.QuaterHourType.View1));
+            holder.v2.setOnClickListener(new QuaterHourOnClickListener(holder,QuaterHourOnClickListener.QuaterHourType.View2));
+            holder.v3.setOnClickListener(new QuaterHourOnClickListener(holder,QuaterHourOnClickListener.QuaterHourType.View3));
             vi.setTag(holder);      // 把 holder 记到vi中
         } else {
             vi = view;
             holder = (ViewHolder) vi.getTag();      // 取出存储过的 holder
         }
         if (holder != null) {
+            holder.position = i;
 
             LoggerDate loggerDate=DateCalculator.GetDate(i);
 
@@ -73,7 +74,6 @@ public class DateListAdapter extends BaseAdapter {
             holder.v1.setText("1");
             holder.v2.setText("2");
             holder.v3.setText("3");
-            holder.position = i;
             if(loggerDate.hour==0)
             {
                 holder.date.setVisibility(View.VISIBLE);

@@ -53,15 +53,9 @@
                     android:id="@+id/curDate"
                     android:text="sss\naaaa"
                     style="@style/layout_full"
+                    android:layout_gravity="top"
                     android:layout_weight="4"
                     />
-                <TextView
-                    android:id="@+id/itemdate"
-                    android:text="ppp"
-                    style="@style/layout_full"
-                    android:layout_weight="4"
-                    />
-
             </LinearLayout>
             <ListView
                 style="@style/layout_full"
