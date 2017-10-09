@@ -3,11 +3,14 @@ package timelogger.cyc.astimelogger;
 import android.app.Activity;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import static timelogger.cyc.astimelogger.DateCalculator.MIDDLE_INDEX;
 
 public class MainActivity extends Activity {
     private ListView _dateList;
@@ -19,7 +22,8 @@ public class MainActivity extends Activity {
     private ArrayList<String> _eventDataList;
 
     private TextView _curDateView;
-
+    private TextView _otherDateView;
+//
     //    private MenuItem _menu_today;
     //    private MenuItem _menu_settings;
     //    private MenuItem _menu_date;
@@ -28,14 +32,28 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        _curDateView = (TextView) findViewById(R.id.curDate);
-        LoggerDate date = DateCalculator.GetCurDate();
-        _curDateView.setText(date.day + "\n星期" + date.week);
+        ConstantValue.InitConstantValue(this);
+
         //        ActionBar actionBar = getActionBar();
         //        actionBar.show();
         InitDateListView();
+
+        InitDateTextView();
+
+        InitTestFunction();
         //        InitEventListView();
 
+    }
+
+    private void InitDateTextView() {
+        _curDateView = (TextView) findViewById(R.id.curDate);
+        _curDateView.setWidth(ConstantValue.GetPixelsWidthPercent(0.2f));
+        LoggerDate date = DateCalculator.GetCurDate();
+        _curDateView.setText(date.day + "\n星期" + date.week);
+
+        _otherDateView = (TextView) findViewById(R.id.itemdate);
+        _otherDateView.setWidth(ConstantValue.GetPixelsWidthPercent(0.2f));
+        _otherDateView.setVisibility(View.INVISIBLE);
     }
 
     private void InitDateListView() {
@@ -54,7 +72,7 @@ public class MainActivity extends Activity {
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
 
-        _dateList.setSelection(DateListAdapter.MIDDLE_INDEX + hour);     // 哪个条目作为第一个
+        _dateList.setSelection(MIDDLE_INDEX + hour);     // 哪个条目作为第一个
 
         //        _dateList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         //            @Override
@@ -62,6 +80,7 @@ public class MainActivity extends Activity {
         //
         //            }
         //        });
+
         _dateList.setOnScrollListener(new ListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int scrollState) {
@@ -86,10 +105,25 @@ public class MainActivity extends Activity {
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 // 获取第一个可见Item的数据，设置 _menu_date的title为item当前的日期
-                //                    _curDateView.setText(firstVisibleItem % 24);
+//                LoggerDate firstDate = DateCalculator.GetDate(firstVisibleItem);
+//                int next0HourDelta = LOOP_COUNT - firstDate.hour;
+//                if (next0HourDelta < visibleItemCount) {
+//                    int nextPos=firstVisibleItem + next0HourDelta;
+//                    LoggerDate nextDate = DateCalculator.GetDate(nextPos);
+//                    _otherDateView.setText(nextDate.day + "\n星期" + nextDate.week);
+//                }
             }
         });
+    }
 
+    private void InitTestFunction() {
+        LoggerDate curDate = DateCalculator.GetCurDate();
+
+        Debug.Log("curDate:");
+        DateCalculator.PintLoggerDate(curDate);
+        LoggerDate newDate = DateCalculator.GetDate(MIDDLE_INDEX + 25);
+        Debug.Log("newDate, add 25 hour:");
+        DateCalculator.PintLoggerDate(newDate);
     }
 
     private void InitEventListView() {

@@ -10,18 +10,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import static timelogger.cyc.astimelogger.DateCalculator.TOTAL_COUNT;
+
 /**
  * Created by cyc on 2017/9/23.
  */
 
 public class DateListAdapter extends BaseAdapter {
-    public static final int MIDDLE_INDEX = Integer.MAX_VALUE / 2;
-    public static final int TOTAL_COUNT = Integer.MAX_VALUE;
-
     private ArrayList<String> data;
     private LayoutInflater inflater = null;
-
-    private int loopCount = 24;
 
     public DateListAdapter(Context context, ArrayList<String> d) {
         data = d;
@@ -51,6 +48,8 @@ public class DateListAdapter extends BaseAdapter {
         if (vi == null) {
             vi = inflater.inflate(R.layout.listview_item, null);
             holder = new ViewHolder();
+            holder.date = (TextView) vi.findViewById(R.id.date);
+            holder.date.setWidth(ConstantValue.GetPixelsWidthPercent(0.2f));
             holder.hour = (TextView) vi.findViewById(R.id.hour);
             holder.v0 = (Button) vi.findViewById(R.id.text0);
             holder.v1 = (Button) vi.findViewById(R.id.text1);
@@ -66,14 +65,24 @@ public class DateListAdapter extends BaseAdapter {
             holder = (ViewHolder) vi.getTag();      // 取出存储过的 holder
         }
         if (holder != null) {
-            int cur = Math.abs(i - MIDDLE_INDEX) % loopCount;
-            holder.hour.setText(String.valueOf(cur));
+
+            LoggerDate loggerDate=DateCalculator.GetDate(i);
+
+            holder.hour.setText(String.valueOf(loggerDate.hour));
             holder.v0.setText("0");
             holder.v1.setText("1");
             holder.v2.setText("2");
             holder.v3.setText("3");
             holder.position = i;
-            holder.curHour = cur;
+            if(loggerDate.hour==0)
+            {
+                holder.date.setVisibility(View.VISIBLE);
+                holder.date.setText(loggerDate.day+"\n星期"+loggerDate.week);
+            }
+            else
+            {
+                holder.date.setVisibility(View.INVISIBLE);
+            }
         }
         return vi;
     }

@@ -8,12 +8,13 @@ import android.widget.TextView;
  */
 
 public final class ViewHolder {
+    public TextView date;
     public TextView hour;
     public Button v0;
     public Button v1;
     public Button v2;
     public Button v3;
     public int position;
-    public int curHour;
+//    public LoggerDate loggerDate;
 }
 

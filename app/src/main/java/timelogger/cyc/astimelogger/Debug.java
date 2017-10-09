@@ -6,7 +6,7 @@ package timelogger.cyc.astimelogger;
 
 public class Debug {
     public static void Log(String content) {
-        System.out.println(content);
+        System.out.println("Log:"+content);
     }
     public static void LogTag(String tag,String content) {
         System.out.println(String.format("[{0}] {1}",tag,content));
