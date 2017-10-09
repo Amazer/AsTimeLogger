@@ -68,6 +68,7 @@ public class MainActivity extends Activity {
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
 
+        Debug.Log("cur hour:"+hour);
         _dateList.setSelection(MIDDLE_INDEX + hour);     // 哪个条目作为第一个
 
         //        _dateList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
