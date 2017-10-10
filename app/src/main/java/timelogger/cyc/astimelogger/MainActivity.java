@@ -95,34 +95,53 @@ public class MainActivity extends Activity {
 
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
                 // 获取第一个可见Item的数据，设置 _menu_date的title为item当前的日期
                 LoggerDate firstDate = DateCalculator.GetDate(firstVisibleItem);
-                int next0HourDelta = LOOP_COUNT - firstDate.hour;
-                _curDateView.setAlpha((next0HourDelta - 2) * 0.5f);
                 _curDateView.setText(firstDate.day + "\n星期" + firstDate.week);
 
-                if (next0HourDelta < 2 /*|| next0HourDelta > 23*/) {
-                    _curDateView.setVisibility(View.INVISIBLE);
-                } else {
-                    _curDateView.setVisibility(View.VISIBLE);
-                }
+                int next0HourDelta = LOOP_COUNT - firstDate.hour;
+                //                if (firstDate.hour > 0 && firstDate.hour < next0HourDelta) {
+                //                    next0HourDelta = firstDate.hour;
+                //                }
 
-                if (next0HourDelta < 4) {
-                    View view = _dateList.getChildAt(next0HourDelta);
+                View view = _dateList.getChildAt(next0HourDelta);
+                int topY = 0;
+                if (view != null) {
+                    topY = view.getTop();
+                }
+                if (next0HourDelta <= 3 && next0HourDelta > 2) {        // 改变_curDateView的alpha,(0,1)
+
+                    if (view != null) {
+                        int height = view.getHeight();
+                        float top2 = height * 2f;
+                        float delta = topY - top2;
+                        float alpha = delta / height;
+                        Debug.Log("alpha:" + alpha);
+                        _curDateView.setAlpha(alpha);
+                    }
+                }
+                if (next0HourDelta < 2) {
+                    _curDateView.setVisibility(View.INVISIBLE);
+
+                    if (view != null) {
+                        if (topY <= 2) {
+                            _curDateView.setAlpha(1);
+                            _curDateView.setVisibility(View.VISIBLE);
+                            ViewHolder holder = (ViewHolder) view.getTag();
+                            holder.date.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                } else {
+
+                    if (next0HourDelta > 3) {        // 改变_curDateView的alpha,(0,1)
+
+                        _curDateView.setAlpha(1);
+                    }
+                    _curDateView.setVisibility(View.VISIBLE);
                     if (view != null) {
                         ViewHolder holder = (ViewHolder) view.getTag();
-                        int topPos = view.getTop();       // 获取距离顶部的y像素值
-                        if (topPos <= 0) {
-                            holder.date.setVisibility(View.INVISIBLE);
-                            _curDateView.setVisibility(View.VISIBLE);
-                            //                            Debug.Log("cur nextOHourDelta:"+next0HourDelta);
-                        } else {
-                            holder.date.setVisibility(View.VISIBLE);
-//                            if(topPos>=_curDateView.getHeight())
-//                            {
-//                                _curDateView.setVisibility(View.VISIBLE);
-//                            }
-                        }
+                        holder.date.setVisibility(View.VISIBLE);
                     }
                 }
             }
