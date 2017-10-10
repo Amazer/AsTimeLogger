@@ -29,7 +29,7 @@ public class DateCalculator {
         int delta = position - MIDDLE_INDEX;
         Calendar c = Calendar.getInstance();
         c.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
-        c.add(Calendar.HOUR, delta);
+        c.add(Calendar.HOUR, delta - c.get(Calendar.HOUR_OF_DAY));        // 减去当前的时间
         LoggerDate date = new LoggerDate();
         date.year = c.get(Calendar.YEAR);
         date.mon = c.get(Calendar.MONTH) + 1;
@@ -43,7 +43,7 @@ public class DateCalculator {
         if (date == null) {
             return;
         }
-        String str=String.format("year:%s,mon:%s,day:%s,week:%s,hour:%s",
+        String str = String.format("year:%s,mon:%s,day:%s,week:%s,hour:%s",
                 date.year, date.mon, date.day, date.week, date.hour);
         Debug.Log(str);
     }

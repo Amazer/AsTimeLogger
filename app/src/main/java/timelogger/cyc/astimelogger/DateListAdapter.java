@@ -8,8 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import static timelogger.cyc.astimelogger.DateCalculator.TOTAL_COUNT;
 
 /**
@@ -17,11 +15,9 @@ import static timelogger.cyc.astimelogger.DateCalculator.TOTAL_COUNT;
  */
 
 public class DateListAdapter extends BaseAdapter {
-    private ArrayList<String> data;
     private LayoutInflater inflater = null;
 
-    public DateListAdapter(Context context, ArrayList<String> d) {
-        data = d;
+    public DateListAdapter(Context context) {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -33,7 +29,7 @@ public class DateListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return i;
+       return i;
     }
 
     @Override
@@ -55,10 +51,10 @@ public class DateListAdapter extends BaseAdapter {
             holder.v1 = (Button) vi.findViewById(R.id.text1);
             holder.v2 = (Button) vi.findViewById(R.id.text2);
             holder.v3 = (Button) vi.findViewById(R.id.text3);
-            holder.v0.setOnClickListener(new QuaterHourOnClickListener(holder,QuaterHourOnClickListener.QuaterHourType.View0));
-            holder.v1.setOnClickListener(new QuaterHourOnClickListener(holder,QuaterHourOnClickListener.QuaterHourType.View1));
-            holder.v2.setOnClickListener(new QuaterHourOnClickListener(holder,QuaterHourOnClickListener.QuaterHourType.View2));
-            holder.v3.setOnClickListener(new QuaterHourOnClickListener(holder,QuaterHourOnClickListener.QuaterHourType.View3));
+            holder.v0.setOnClickListener(new QuaterHourOnClickListener(holder, QuaterHourOnClickListener.QuaterHourType.View0));
+            holder.v1.setOnClickListener(new QuaterHourOnClickListener(holder, QuaterHourOnClickListener.QuaterHourType.View1));
+            holder.v2.setOnClickListener(new QuaterHourOnClickListener(holder, QuaterHourOnClickListener.QuaterHourType.View2));
+            holder.v3.setOnClickListener(new QuaterHourOnClickListener(holder, QuaterHourOnClickListener.QuaterHourType.View3));
             vi.setTag(holder);      // 把 holder 记到vi中
         } else {
             vi = view;
@@ -66,23 +62,7 @@ public class DateListAdapter extends BaseAdapter {
         }
         if (holder != null) {
             holder.position = i;
-
-            LoggerDate loggerDate=DateCalculator.GetDate(i);
-
-            holder.hour.setText(String.valueOf(loggerDate.hour));
-            holder.v0.setText("0");
-            holder.v1.setText("1");
-            holder.v2.setText("2");
-            holder.v3.setText("3");
-            if(loggerDate.hour==0)
-            {
-                holder.date.setVisibility(View.VISIBLE);
-                holder.date.setText(loggerDate.day+"\n星期"+loggerDate.week);
-            }
-            else
-            {
-                holder.date.setVisibility(View.INVISIBLE);
-            }
+            holder.SetDate();
         }
         return vi;
     }

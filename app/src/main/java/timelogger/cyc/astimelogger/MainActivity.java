@@ -16,7 +16,6 @@ import static timelogger.cyc.astimelogger.DateCalculator.MIDDLE_INDEX;
 public class MainActivity extends Activity {
     private ListView _dateList;
     private DateListAdapter _dateListAdapter;
-    private ArrayList<String> _dataList;
 
     private ListView _eventList;
     private EventListAdapter _eventListAdapter;
@@ -57,18 +56,13 @@ public class MainActivity extends Activity {
         _dateList = (ListView) findViewById(R.id.list);
         _dateList.setDividerHeight(0);
 
-        _dataList = new ArrayList<String>();
-        for (int i = 0, imax = 24; i < imax; ++i) {
-            _dataList.add(String.valueOf(i));
-        }
-
-        _dateListAdapter = new DateListAdapter(this, _dataList);
+        _dateListAdapter = new DateListAdapter(this);
         _dateList.setAdapter(_dateListAdapter);
 
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
 
-        Debug.Log("cur hour:"+hour);
+        Debug.Log("cur hour:" + hour + ",first item:" + (MIDDLE_INDEX + hour));
         _dateList.setSelection(MIDDLE_INDEX + hour);     // 哪个条目作为第一个
 
         //        _dateList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -104,12 +98,32 @@ public class MainActivity extends Activity {
                 // 获取第一个可见Item的数据，设置 _menu_date的title为item当前的日期
                 LoggerDate firstDate = DateCalculator.GetDate(firstVisibleItem);
                 int next0HourDelta = LOOP_COUNT - firstDate.hour;
-                _curDateView.setAlpha((next0HourDelta-1) * 0.5f);
+                _curDateView.setAlpha((next0HourDelta - 2) * 0.5f);
                 _curDateView.setText(firstDate.day + "\n星期" + firstDate.week);
-                if (next0HourDelta < 1 || next0HourDelta > 22) {
+
+                if (next0HourDelta < 2 /*|| next0HourDelta > 23*/) {
                     _curDateView.setVisibility(View.INVISIBLE);
                 } else {
                     _curDateView.setVisibility(View.VISIBLE);
+                }
+
+                if (next0HourDelta < 4) {
+                    View view = _dateList.getChildAt(next0HourDelta);
+                    if (view != null) {
+                        ViewHolder holder = (ViewHolder) view.getTag();
+                        int topPos = view.getTop();       // 获取距离顶部的y像素值
+                        if (topPos <= 0) {
+                            holder.date.setVisibility(View.INVISIBLE);
+                            _curDateView.setVisibility(View.VISIBLE);
+                            //                            Debug.Log("cur nextOHourDelta:"+next0HourDelta);
+                        } else {
+                            holder.date.setVisibility(View.VISIBLE);
+//                            if(topPos>=_curDateView.getHeight())
+//                            {
+//                                _curDateView.setVisibility(View.VISIBLE);
+//                            }
+                        }
+                    }
                 }
             }
         });
