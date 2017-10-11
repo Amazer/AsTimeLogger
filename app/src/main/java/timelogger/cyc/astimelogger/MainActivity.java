@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import static timelogger.cyc.astimelogger.DateCalculator.LOOP_COUNT;
 import static timelogger.cyc.astimelogger.DateCalculator.MIDDLE_INDEX;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity
+{
     private ListView _dateList;
     private DateListAdapter _dateListAdapter;
 
@@ -29,7 +30,8 @@ public class MainActivity extends Activity {
     //    private MenuItem _menu_date;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ConstantValue.InitConstantValue(this);
@@ -46,12 +48,14 @@ public class MainActivity extends Activity {
 
     }
 
-    private void InitDateTextView() {
+    private void InitDateTextView()
+    {
         _curDateView = (TextView) findViewById(R.id.curDate);
         _curDateView.setWidth(ConstantValue.GetPixelsWidthPercent(0.2f));
     }
 
-    private void InitDateListView() {
+    private void InitDateListView()
+    {
         // date list
         _dateList = (ListView) findViewById(R.id.list);
         _dateList.setDividerHeight(0);
@@ -72,10 +76,16 @@ public class MainActivity extends Activity {
         //            }
         //        });
 
-        _dateList.setOnScrollListener(new ListView.OnScrollListener() {
+        _dateList.setOnScrollListener(new ListView.OnScrollListener()
+        {
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-                switch (scrollState) {
+            public void onScrollStateChanged(AbsListView absListView, int scrollState)
+            {
+
+                int firstVisibleItem = _dateList.getFirstVisiblePosition();
+                UpdateDateListVeiwEff(firstVisibleItem);
+                switch (scrollState)
+                {
                     case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:    // 拖动
                     case AbsListView.OnScrollListener.SCROLL_STATE_FLING:           // 惯性滑动
                     {
@@ -94,61 +104,103 @@ public class MainActivity extends Activity {
             }
 
             @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-                // 获取第一个可见Item的数据，设置 _menu_date的title为item当前的日期
-                LoggerDate firstDate = DateCalculator.GetDate(firstVisibleItem);
-                _curDateView.setText(firstDate.day + "\n星期" + firstDate.week);
-
-                int next0HourDelta = LOOP_COUNT - firstDate.hour;
-                //                if (firstDate.hour > 0 && firstDate.hour < next0HourDelta) {
-                //                    next0HourDelta = firstDate.hour;
-                //                }
-
-                View view = _dateList.getChildAt(next0HourDelta);
-                int topY = 0;
-                if (view != null) {
-                    topY = view.getTop();
-                }
-                if (next0HourDelta <= 3 && next0HourDelta > 2) {        // 改变_curDateView的alpha,(0,1)
-
-                    if (view != null) {
-                        int height = view.getHeight();
-                        float top2 = height * 2f;
-                        float delta = topY - top2;
-                        float alpha = delta / height;
-                        Debug.Log("alpha:" + alpha);
-                        _curDateView.setAlpha(alpha);
-                    }
-                }
-                if (next0HourDelta < 2) {
-                    _curDateView.setVisibility(View.INVISIBLE);
-
-                    if (view != null) {
-                        if (topY <= 2) {
-                            _curDateView.setAlpha(1);
-                            _curDateView.setVisibility(View.VISIBLE);
-                            ViewHolder holder = (ViewHolder) view.getTag();
-                            holder.date.setVisibility(View.INVISIBLE);
-                        }
-                    }
-                } else {
-
-                    if (next0HourDelta > 3) {        // 改变_curDateView的alpha,(0,1)
-
-                        _curDateView.setAlpha(1);
-                    }
-                    _curDateView.setVisibility(View.VISIBLE);
-                    if (view != null) {
-                        ViewHolder holder = (ViewHolder) view.getTag();
-                        holder.date.setVisibility(View.VISIBLE);
-                    }
-                }
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+            {
+                UpdateDateListVeiwEff(firstVisibleItem);
             }
         });
     }
 
-    private void InitTestFunction() {
+    private void UpdateDateListVeiwEff(int firstVisibleItem)
+    {
+        // 获取第一个可见Item的数据，设置 _menu_date的title为item当前的日期
+        LoggerDate firstDate = DateCalculator.GetDate(firstVisibleItem);
+        _curDateView.setText(firstDate.day + "\n星期" + firstDate.week);
+
+        View firstView = _dateList.getChildAt(0);
+        int firstTopY = 0;
+        if (firstView != null)
+        {
+            firstTopY = firstView.getTop();
+            Debug.Log("first view topY:" + firstTopY);
+        }
+
+        int next0HourDelta = LOOP_COUNT - firstDate.hour;
+        Debug.Log("next0HourDelta:" + next0HourDelta);
+
+        View view = _dateList.getChildAt(next0HourDelta);
+        int topY = 0;
+        if (view != null)
+        {
+            topY = view.getTop();
+            Debug.Log("next view topY:" + topY);
+        }
+
+        if (next0HourDelta <= 3)
+        {
+            if (next0HourDelta >= 2)  // [2,3]
+            {
+                if (view != null)
+                {
+                    int height = view.getHeight();
+                    float top2 = height * 2f;
+                    float delta = topY - top2;
+                    float alpha = delta / height;
+                    Debug.Log("alpha:" + alpha);
+                    _curDateView.setVisibility(View.VISIBLE);
+                    _curDateView.setAlpha(alpha);
+                    view.setVisibility(View.VISIBLE);
+                }
+            } else              // (1,2)
+            {
+                if (firstTopY <= (-topY))
+                {
+                    _curDateView.setAlpha(1f);
+                    _curDateView.setVisibility(View.VISIBLE);
+                    if (view != null)
+                    {
+                        ViewHolder holder = (ViewHolder) view.getTag();
+                        holder.date.setVisibility(View.INVISIBLE);
+                        _curDateView.setText(holder.date.getText());
+                    }
+                } else  // firstTopY>0
+                {
+                    _curDateView.setAlpha(0f);
+                    _curDateView.setVisibility(View.INVISIBLE);
+                    if (view != null)
+                    {
+                        ViewHolder holder = (ViewHolder) view.getTag();
+                        holder.date.setVisibility(View.VISIBLE);
+                    }
+
+                }
+            }
+
+        }       // end if (next0Hour<=3)
+        else if (next0HourDelta > 3 && next0HourDelta < 24)   // next0Hour(3,23]
+        {
+            _curDateView.setAlpha(1f);
+            _curDateView.setVisibility(View.VISIBLE);
+            if (view != null)
+            {
+                ViewHolder holder = (ViewHolder) view.getTag();
+                holder.date.setVisibility(View.VISIBLE);
+            }
+        } else // next0Hour == 24
+        {
+            int firstViewHeight = firstView.getHeight();
+            if (firstTopY > (-firstViewHeight))
+            {
+                _curDateView.setVisibility(View.INVISIBLE);
+
+                ViewHolder holder = (ViewHolder) firstView.getTag();
+                holder.date.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    private void InitTestFunction()
+    {
         LoggerDate curDate = DateCalculator.GetCurDate();
 
         Debug.Log("curDate:");
@@ -158,10 +210,12 @@ public class MainActivity extends Activity {
         DateCalculator.PintLoggerDate(newDate);
     }
 
-    private void InitEventListView() {
+    private void InitEventListView()
+    {
         _eventList = (ListView) findViewById(R.id.eventlist);
         _eventDataList = new ArrayList<String>();
-        for (int i = 0, imax = 5; i < imax; ++i) {
+        for (int i = 0, imax = 5; i < imax; ++i)
+        {
             _eventDataList.add("event " + i);
         }
 
