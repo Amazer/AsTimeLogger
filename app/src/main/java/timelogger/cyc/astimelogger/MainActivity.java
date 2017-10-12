@@ -100,7 +100,6 @@ public class MainActivity extends Activity
                     case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:            // 手指离开或者惯性滑动停止
                         break;
                 }
-
             }
 
             @Override
@@ -115,87 +114,63 @@ public class MainActivity extends Activity
     {
         // 获取第一个可见Item的数据，设置 _menu_date的title为item当前的日期
         LoggerDate firstDate = DateCalculator.GetDate(firstVisibleItem);
-        _curDateView.setText(firstDate.day + "\n星期" + firstDate.week);
 
-        View firstView = _dateList.getChildAt(0);
-        int firstTopY = 0;
-        if (firstView != null)
+        // 获取第一个 0 hour的view
+        View first0HourView = null;
+        if (firstDate.hour == 0)
         {
-            firstTopY = firstView.getTop();
-            Debug.Log("first view topY:" + firstTopY);
-        }
-
-        int next0HourDelta = LOOP_COUNT - firstDate.hour;
-        Debug.Log("next0HourDelta:" + next0HourDelta);
-
-        View view = _dateList.getChildAt(next0HourDelta);
-        int topY = 0;
-        if (view != null)
+            first0HourView = _dateList.getChildAt(0);
+        } else
         {
-            topY = view.getTop();
-            Debug.Log("next view topY:" + topY);
-        }
-
-        if (next0HourDelta <= 3)
-        {
-            if (next0HourDelta >= 2)  // [2,3]
+            int deltaIndex = LOOP_COUNT - firstDate.hour;
+            if (deltaIndex <= 3)
             {
-                if (view != null)
-                {
-                    int height = view.getHeight();
-                    float top2 = height * 2f;
-                    float delta = topY - top2;
-                    float alpha = delta / height;
-                    Debug.Log("alpha:" + alpha);
-                    _curDateView.setVisibility(View.VISIBLE);
-                    _curDateView.setAlpha(alpha);
-                    view.setVisibility(View.VISIBLE);
-                }
-            } else              // (1,2)
-            {
-                if (firstTopY <= (-topY))
-                {
-                    _curDateView.setAlpha(1f);
-                    _curDateView.setVisibility(View.VISIBLE);
-                    if (view != null)
-                    {
-                        ViewHolder holder = (ViewHolder) view.getTag();
-                        holder.date.setVisibility(View.INVISIBLE);
-                        _curDateView.setText(holder.date.getText());
-                    }
-                } else  // firstTopY>0
-                {
-                    _curDateView.setAlpha(0f);
-                    _curDateView.setVisibility(View.INVISIBLE);
-                    if (view != null)
-                    {
-                        ViewHolder holder = (ViewHolder) view.getTag();
-                        holder.date.setVisibility(View.VISIBLE);
-                    }
-
-                }
+                first0HourView = _dateList.getChildAt(deltaIndex);
             }
+        }
 
-        }       // end if (next0Hour<=3)
-        else if (next0HourDelta > 3 && next0HourDelta < 24)   // next0Hour(3,23]
+        if (first0HourView == null)
         {
+            Debug.Log("first0HourView == null");
             _curDateView.setAlpha(1f);
             _curDateView.setVisibility(View.VISIBLE);
-            if (view != null)
-            {
-                ViewHolder holder = (ViewHolder) view.getTag();
-                holder.date.setVisibility(View.VISIBLE);
-            }
-        } else // next0Hour == 24
+            _curDateView.setText(firstDate.day + "\n星期" + firstDate.week);
+        } else
         {
-            int firstViewHeight = firstView.getHeight();
-            if (firstTopY > (-firstViewHeight))
+            ViewHolder holder = (ViewHolder) first0HourView.getTag();
+            int topY = first0HourView.getTop();
+            int viewHeight = first0HourView.getHeight();
+            if (topY < 0)
             {
-                _curDateView.setVisibility(View.INVISIBLE);
+//                Debug.Log("topY<0 " + topY);
+                _curDateView.setAlpha(1f);
+                _curDateView.setVisibility(View.VISIBLE);
+                _curDateView.setText(firstDate.day + "\n星期" + firstDate.week);
 
-                ViewHolder holder = (ViewHolder) firstView.getTag();
+                holder.date.setVisibility(View.INVISIBLE);
+
+            } else if (topY < 2 * viewHeight)
+            {
+                float delta = topY - viewHeight;
+                float alpha = delta / viewHeight;
+
+//                Debug.Log("topY<2viewHeight,topY:" + topY + ",alpha:" + alpha + ",vieHeight:" + viewHeight);
+
+                _curDateView.setAlpha(alpha);
+                _curDateView.setVisibility(View.VISIBLE);
+                _curDateView.setText(firstDate.day + "\n星期" + firstDate.week);
+
+                holder.date.setVisibility(View.VISIBLE);
+
+            } else
+            {
+//                Debug.Log("topY>=viewHeight,topY:" + topY + ",vieHeight:" + viewHeight);
+                _curDateView.setAlpha(1f);
+                _curDateView.setVisibility(View.VISIBLE);
+                _curDateView.setText(firstDate.day + "\n星期" + firstDate.week);
                 holder.date.setVisibility(View.VISIBLE);
             }
+
         }
     }
 
