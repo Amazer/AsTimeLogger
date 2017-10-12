@@ -3,6 +3,8 @@ package timelogger.cyc.astimelogger;
 import android.app.Activity;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -24,10 +26,10 @@ public class MainActivity extends Activity
 
     private TextView _curDateView;
 
-    //
-    //    private MenuItem _menu_today;
-    //    private MenuItem _menu_settings;
-    //    private MenuItem _menu_date;
+
+    private MenuItem _menu_today;
+    private MenuItem _menu_settings;
+    private MenuItem _menu_date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -131,7 +133,7 @@ public class MainActivity extends Activity
 
         if (first0HourView == null)
         {
-//            Debug.Log("first0HourView == null");
+            //            Debug.Log("first0HourView == null");
             _curDateView.setAlpha(1f);
             _curDateView.setVisibility(View.VISIBLE);
             _curDateView.setText(firstDate.day + "\n星期" + firstDate.week);
@@ -142,7 +144,7 @@ public class MainActivity extends Activity
             int viewHeight = first0HourView.getHeight();
             if (topY < 0)
             {
-//                Debug.Log("topY<0 " + topY);
+                //                Debug.Log("topY<0 " + topY);
                 _curDateView.setAlpha(1f);
                 _curDateView.setVisibility(View.VISIBLE);
                 _curDateView.setText(firstDate.day + "\n星期" + firstDate.week);
@@ -154,7 +156,7 @@ public class MainActivity extends Activity
                 float delta = topY - viewHeight;
                 float alpha = delta / viewHeight;
 
-//                Debug.Log("topY<2viewHeight,topY:" + topY + ",alpha:" + alpha + ",vieHeight:" + viewHeight);
+                //                Debug.Log("topY<2viewHeight,topY:" + topY + ",alpha:" + alpha + ",vieHeight:" + viewHeight);
 
                 _curDateView.setAlpha(alpha);
                 _curDateView.setVisibility(View.VISIBLE);
@@ -164,7 +166,7 @@ public class MainActivity extends Activity
 
             } else
             {
-//                Debug.Log("topY>=viewHeight,topY:" + topY + ",vieHeight:" + viewHeight);
+                //                Debug.Log("topY>=viewHeight,topY:" + topY + ",vieHeight:" + viewHeight);
                 _curDateView.setAlpha(1f);
                 _curDateView.setVisibility(View.VISIBLE);
                 _curDateView.setText(firstDate.day + "\n星期" + firstDate.week);
@@ -216,16 +218,18 @@ public class MainActivity extends Activity
     //        return super.onMenuItemSelected(featureId, item);
     //    }
     //
-    //    @Override
-    //    public boolean onCreateOptionsMenu(Menu menu) {
-    //        _menu_date = menu.findItem(R.id.action_date);
-    //        _menu_settings=menu.findItem(R.id.action_menu);
-    //        _menu_today=menu.findItem(R.id.action_today);
-    //        return super.onCreateOptionsMenu(menu);
-    //    }
-    //
-    //    @Override
-    //    public boolean onPrepareOptionsMenu(Menu menu) {
-    //        return super.onPrepareOptionsMenu(menu);
-    //    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        _menu_date = menu.findItem(R.id.action_date);
+        _menu_settings = menu.findItem(R.id.action_menu);
+        _menu_today = menu.findItem(R.id.action_today);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        return super.onPrepareOptionsMenu(menu);
+    }
 }
