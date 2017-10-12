@@ -131,7 +131,7 @@ public class MainActivity extends Activity
 
         if (first0HourView == null)
         {
-            Debug.Log("first0HourView == null");
+//            Debug.Log("first0HourView == null");
             _curDateView.setAlpha(1f);
             _curDateView.setVisibility(View.VISIBLE);
             _curDateView.setText(firstDate.day + "\n星期" + firstDate.week);
