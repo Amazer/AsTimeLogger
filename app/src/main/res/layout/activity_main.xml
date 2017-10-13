@@ -36,11 +36,13 @@
 
     </LinearLayout>
     -->
+    <!--
     <include
         android:id="@+id/action_bar"
         layout="@layout/actionbar_main"
         >
     </include>
+    -->
 
     <LinearLayout
             style="@style/layout_full"

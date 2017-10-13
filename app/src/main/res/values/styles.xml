@@ -25,13 +25,27 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- 有标题栏的them-->
     <style name="AppThemeActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
+    <!-- 有标题栏的them-->
         <!-- Customize your theme here. -->
+        <!--
+    <style name="AppThemeActionBar" parent="Base.Widget.AppCompat.Light.ActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:backgroundStacked">@color/white</item>
+        <item name="android:titleTextStyle">@style/actionBarTitle</item>
     </style>
+
+    <style name="actionBarTitle">
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
 
     <!-- 全屏幕拉伸 -->
     <style name="layout_full">

@@ -1,5 +1,6 @@
 package timelogger.cyc.astimelogger;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.icu.util.Calendar;
 import android.os.Bundle;
@@ -38,8 +39,10 @@ public class MainActivity extends Activity
         setContentView(R.layout.activity_main);
         ConstantValue.InitConstantValue(this);
 
-        //        ActionBar actionBar = getActionBar();
-        //        actionBar.show();
+        ActionBar actionBar = getActionBar();                       // 使用自定义的actionbar布局
+        actionBar.setCustomView(R.layout.actionbar_main);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+
         InitDateTextView();
 
         InitDateListView();
@@ -221,6 +224,7 @@ public class MainActivity extends Activity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        getMenuInflater().inflate(R.menu.menu_actionbar, menu);
         _menu_date = menu.findItem(R.id.action_date);
         _menu_settings = menu.findItem(R.id.action_menu);
         _menu_today = menu.findItem(R.id.action_today);
