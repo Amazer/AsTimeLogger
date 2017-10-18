@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="DATABASE_INFO">
+        <item>timeLogger.db</item>
+        <item>1</item>
+    </array>
+
+    <array name="CREATE_TABLE_SQL">
+        <item>Create table if not exists t_events (id integer primary key autoincrement,name text,color_id integer
+        </item>
+        <item>Create table if not exists t_items (id integer primary key,events text</item>
+    </array>
+
+    <array name="UPDATE_TABLE_SQL">
+        <item></item>
+    </array>
+</resources>
