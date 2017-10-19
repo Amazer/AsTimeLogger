@@ -6,4 +6,21 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="textColor">#FF4FFF</color>
+
+    <!-- event item color data -->
+    <array name="colorIndex_0">
+        <item>color0</item>
+    </array>
+    <array name="colorIndex_1">
+        <item>color1</item>
+    </array>
+    <array name="colorIndex_2">
+        <item>color2</item>
+    </array>
+    <array name="colorIndex_3">
+        <item>color3</item>
+    </array>
+    <array name="colorIndex_4">
+        <item>color4</item>
+    </array>
 </resources>
