@@ -11,9 +11,9 @@
         </item>
         <item>Create table if not exists t_items (id integer primary key,events text</item>
         <!--   并且在events表中添加初始的条目 -->
-        <item>Insert into t_events (text,color_id) Values('睡觉',0) </item>
-        <item>Insert into t_events (text,color_id) Values('工作',1) </item>
-        <item>Insert into t_events (text,color_id) Values('学习',2) </item>
+        <item>Insert into t_events (text,color_id) Values(\'睡觉\',0) </item>
+        <item>Insert into t_events (text,color_id) Values(\'工作\',1) </item>
+        <item>Insert into t_events (text,color_id) Values(\'学习\',2) </item>
     </array>
 
     <array name="UPDATE_TABLE_SQL">
