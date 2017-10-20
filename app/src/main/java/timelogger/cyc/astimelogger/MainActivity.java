@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import timelogger.cyc.astimelogger.timelogger.cyc.astimelogger.database.TLDBHelper;
+
 import static timelogger.cyc.astimelogger.DateCalculator.LOOP_COUNT;
 import static timelogger.cyc.astimelogger.DateCalculator.MIDDLE_INDEX;
 
@@ -32,12 +34,16 @@ public class MainActivity extends Activity
     private MenuItem _menu_settings;
     private MenuItem _menu_date;
 
+    public static TLDBHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ConstantValue.InitConstantValue(this);
+
+        dbHelper=TLDBHelper.getInstance(this.getApplicationContext());
 
         ActionBar actionBar = getActionBar();                       // 使用自定义的actionbar布局
         actionBar.setCustomView(R.layout.actionbar_main);
