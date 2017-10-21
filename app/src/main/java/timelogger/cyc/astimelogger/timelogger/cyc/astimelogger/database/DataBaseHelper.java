@@ -37,8 +37,6 @@ public abstract class DataBaseHelper
 
     protected abstract String[] getDbUpdateSql(Context context);
 
-    private SQLiteDatabase db;
-
     public DataBaseHelper(Context context)
     {
         this.mDbVersion = this.getDbVersion(context);
@@ -293,7 +291,7 @@ public abstract class DataBaseHelper
         }
 
         @Override
-        public void onCreate(SQLiteDatabase sqLiteDatabase)
+        public void onCreate(SQLiteDatabase db)
         {
             String[] arr = DataBaseHelper.this.mDbCreateSql;
             for (int i = 0; i < arr.length; ++i)
@@ -304,7 +302,7 @@ public abstract class DataBaseHelper
         }
 
         @Override
-        public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion)
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
         {
             String[] arr = DataBaseHelper.this.mDbUpdateSql;
             for (int i = 0, imax = arr.length; i < imax; ++i)
