@@ -11,7 +11,9 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import timelogger.cyc.astimelogger.timelogger.cyc.astimelogger.database.TLDBHelper;
 
@@ -25,7 +27,6 @@ public class MainActivity extends Activity
 
     private ListView _eventList;
     private EventListAdapter _eventListAdapter;
-    private ArrayList<String> _eventDataList;
 
     private TextView _curDateView;
 
@@ -43,7 +44,7 @@ public class MainActivity extends Activity
         setContentView(R.layout.activity_main);
         ConstantValue.InitConstantValue(this);
 
-        dbHelper=TLDBHelper.getInstance(this.getApplicationContext());
+        dbHelper = TLDBHelper.getInstance(this.getApplicationContext());
 
         ActionBar actionBar = getActionBar();                       // 使用自定义的actionbar布局
         actionBar.setCustomView(R.layout.actionbar_main);
@@ -198,14 +199,19 @@ public class MainActivity extends Activity
 
     private void InitEventListView()
     {
-        _eventList = (ListView) findViewById(R.id.eventlist);
-        _eventDataList = new ArrayList<String>();
-        for (int i = 0, imax = 5; i < imax; ++i)
+        String sql = this.getResources().getString(R.string.Select_All_From_T_Events);
+        List<Map> list = dbHelper.queryListMap(sql, null);
+        Debug.Log("Events list:" + String.valueOf(list));
+        for (int i = 0, imax = list.size(); i < imax; ++i)
         {
-            _eventDataList.add("event " + i);
-        }
+            HashMap item = (HashMap) list.get(i);
+            Debug.Log("list " + i + String.valueOf(item.get("name")));
 
-        _eventListAdapter = new EventListAdapter(this, _eventDataList);
+            //            HashMap hm=list<HashMap>[i];
+        }
+        _eventList = (ListView) findViewById(R.id.eventlist);
+
+        _eventListAdapter = new EventListAdapter(this, list);
         _eventList.setAdapter(_eventListAdapter);
     }
 

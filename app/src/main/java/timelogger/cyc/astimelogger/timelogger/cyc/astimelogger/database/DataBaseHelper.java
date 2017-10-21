@@ -216,11 +216,15 @@ public abstract class DataBaseHelper
         int columnCount = cursor.getColumnCount();
         while (cursor.moveToNext())
         {
+            // 每个item是一行数据，为 [列名,value]的键值对
             HashMap item = new HashMap();
             for (int i = 0; i < columnCount; ++i)
             {
-                int type = cursor.getType(i);
-                switch (type)
+                int rowIndex = cursor.getType(i);
+//                Debug.Log("cursor type:" + type);
+
+                // getColumnName:获取表的列明，并放入数据
+                switch (rowIndex)
                 {
                     case 0:
                         item.put(cursor.getColumnName(i), null);
@@ -272,13 +276,14 @@ public abstract class DataBaseHelper
         return map;
     }
 
-    public  void execSQL(String sql)
+    public void execSQL(String sql)
     {
         this.mDb.execSQL(sql);
     }
-    public void  execSQL(String sql,Object[] params)
+
+    public void execSQL(String sql, Object[] params)
     {
-        this.mDb.execSQL(sql,params);
+        this.mDb.execSQL(sql, params);
     }
 
 

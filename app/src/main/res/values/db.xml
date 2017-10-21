@@ -19,4 +19,7 @@
     <array name="UPDATE_TABLE_SQL">
         <item></item>
     </array>
+
+    <string name="Select_All_From_T_Events">Select * from t_events</string>
+
 </resources>

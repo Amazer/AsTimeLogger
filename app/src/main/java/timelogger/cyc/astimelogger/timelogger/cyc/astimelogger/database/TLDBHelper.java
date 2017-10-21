@@ -2,7 +2,6 @@ package timelogger.cyc.astimelogger.timelogger.cyc.astimelogger.database;
 
 import android.content.Context;
 
-import timelogger.cyc.astimelogger.Debug;
 import timelogger.cyc.astimelogger.R;
 
 /**
@@ -40,7 +39,7 @@ public class TLDBHelper extends DataBaseHelper
     protected int getDbVersion(Context context)
     {
         String versionStr=context.getResources().getStringArray(R.array.DATABASE_INFO)[1];
-        Debug.Log("db version str:"+versionStr);
+//        Debug.Log("db version str:"+versionStr);
         return Integer.valueOf(versionStr);
     }
 

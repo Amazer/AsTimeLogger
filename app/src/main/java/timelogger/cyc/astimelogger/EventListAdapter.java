@@ -7,7 +7,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import timelogger.cyc.astimelogger.timelogger.cyc.astimelogger.database.T_Events;
 
 /**
  * Created by 95 on 2017/9/25.
@@ -16,12 +20,12 @@ import java.util.ArrayList;
 public class EventListAdapter extends BaseAdapter
 {
 
-    private ArrayList<String> _dataList;
+    private List<Map> _dataList;
     private LayoutInflater _inflater;
 
-    public EventListAdapter(Context context, ArrayList<String> d)
+    public EventListAdapter(Context context, List<Map> list)
     {
-        _dataList = d;
+        _dataList = list;
         _inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -70,8 +74,9 @@ public class EventListAdapter extends BaseAdapter
             }
             else
             {
-                String s = _dataList.get(position);
+                HashMap s =(HashMap) _dataList.get(position);
                 holder.tagBtn.setTag(s);
+                holder.tagBtn.setText(String.valueOf(s.get(T_Events.Name)));
                 holder.tagBtn.setVisibility(View.VISIBLE);
                 holder.managerBtn.setVisibility(View.INVISIBLE);
             }
