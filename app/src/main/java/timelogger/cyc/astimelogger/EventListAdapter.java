@@ -57,7 +57,9 @@ public class EventListAdapter extends BaseAdapter
             vi = _inflater.inflate(R.layout.eventlist_item, null);
             holder = new EventViewHolder();
             holder.tagBtn = (Button) vi.findViewById(R.id.tag_button);
+            holder.tagBtn.setOnClickListener(new EventBtnOnClickListener(holder));
             holder.managerBtn = (Button) vi.findViewById(R.id.manager_button);
+            holder.managerBtn.setOnClickListener(new EventsManagerOnClickListener());
             vi.setTag(holder);
         } else
         {
@@ -67,14 +69,15 @@ public class EventListAdapter extends BaseAdapter
         if (holder != null)
         {
             holder.position = position;
-            if(position>=(getCount()-1))
+            if (position >= (getCount() - 1))
             {
+                holder.data = null;
                 holder.tagBtn.setVisibility(View.INVISIBLE);
                 holder.managerBtn.setVisibility(View.VISIBLE);
-            }
-            else
+            } else
             {
-                HashMap s =(HashMap) _dataList.get(position);
+                HashMap s = (HashMap) _dataList.get(position);
+                holder.data = s;
                 holder.tagBtn.setTag(s);
                 holder.tagBtn.setText(String.valueOf(s.get(T_Events.Name)));
                 holder.tagBtn.setVisibility(View.VISIBLE);
