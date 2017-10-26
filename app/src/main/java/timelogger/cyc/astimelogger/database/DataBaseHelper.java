@@ -1,4 +1,4 @@
-package timelogger.cyc.astimelogger.timelogger.cyc.astimelogger.database;
+package timelogger.cyc.astimelogger.database;
 
 import android.content.ContentValues;
 import android.content.Context;

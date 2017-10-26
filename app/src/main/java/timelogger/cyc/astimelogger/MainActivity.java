@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import timelogger.cyc.astimelogger.timelogger.cyc.astimelogger.database.TLDBHelper;
+import timelogger.cyc.astimelogger.database.TLDBHelper;
 
 import static timelogger.cyc.astimelogger.DateCalculator.LOOP_COUNT;
 import static timelogger.cyc.astimelogger.DateCalculator.MIDDLE_INDEX;

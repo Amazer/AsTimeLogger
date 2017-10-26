@@ -1,4 +1,4 @@
-package timelogger.cyc.astimelogger.timelogger.cyc.astimelogger.database;
+package timelogger.cyc.astimelogger.database;
 
 /**
  * Created by cyc on 2017/10/21.

@@ -4,7 +4,7 @@ import android.view.View;
 
 import java.util.HashMap;
 
-import timelogger.cyc.astimelogger.timelogger.cyc.astimelogger.database.T_Events;
+import timelogger.cyc.astimelogger.database.T_Events;
 
 /**
  * Created by cyc on 2017/10/21.
