@@ -1,6 +1,7 @@
 package timelogger.cyc.astimelogger.view;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,22 +19,22 @@ public class DragableItemListVisew extends ListView
     private WindowManager _winManager;
     private WindowManager.LayoutParams _winLayoutParam;
 
-    public DragableItemListVisew(Context context)
+    public DragableItemListVisew(Context context, AttributeSet attrs)
     {
-        super(context);
+        super(context, attrs);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev)
     {
-        Debug.Log("onInterceptTouchEvent,"+ev.getAction());
+        Debug.Log("onInterceptTouchEvent," + ev.getAction());
         return super.onInterceptTouchEvent(ev);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev)
     {
-        Debug.Log("onTouchEvent,"+ev.getAction());
+        Debug.Log("onTouchEvent," + ev.getAction());
         return super.onTouchEvent(ev);
     }
 }

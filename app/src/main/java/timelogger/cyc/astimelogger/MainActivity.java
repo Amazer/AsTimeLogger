@@ -2,6 +2,7 @@ package timelogger.cyc.astimelogger;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import static timelogger.cyc.astimelogger.DateCalculator.MIDDLE_INDEX;
 
 public class MainActivity extends Activity
 {
+    public static Context context;
     private ListView _dateList;
     private DateListAdapter _dateListAdapter;
 
@@ -43,6 +45,7 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ConstantValue.InitConstantValue(this);
+        context=this;
 
         dbHelper = TLDBHelper.getInstance(this.getApplicationContext());
 
