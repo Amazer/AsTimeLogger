@@ -13,8 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import timelogger.cyc.astimelogger.Debug;
-
 /**
  * Created by cyc on 2017/10/26.
  */
@@ -27,6 +25,9 @@ public class DragableItemListView extends ListView
 
     private int dragSrcPos;
     private int dragPos;
+
+    private View dragSrcItemView;
+    private View dragTarItemView;
 
     private int dragPoint;
     private int dragOffsetY;
@@ -61,7 +62,7 @@ public class DragableItemListView extends ListView
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev)
     {
-        Debug.Log("onInterceptTouchEvent," + ev.getAction());
+        //        Debug.Log("onInterceptTouchEvent," + ev.getAction());
 
         if (ev.getAction() == MotionEvent.ACTION_DOWN)        // 按下事件
         {
@@ -75,22 +76,22 @@ public class DragableItemListView extends ListView
             }
 
             // 获取当前位置的视图
-            ViewGroup itemView = (ViewGroup) getChildAt(dragPos - getFirstVisiblePosition());
+            dragSrcItemView = (ViewGroup) getChildAt(dragPos - getFirstVisiblePosition());
 
-            dragPoint = y - itemView.getTop();
+            dragPoint = y - dragSrcItemView.getTop();
             dragOffsetY = (int) (ev.getRawY() - y);
 
-            View dragger = itemView.findViewById(dragSrcId);
+            View dragger = dragSrcItemView.findViewById(dragSrcId);
 
             if (dragger != null && x > dragger.getLeft() - 20)
             {
                 upScrollBounce = getHeight() / 3;
                 downScrollBounce = getHeight() * 2 / 3;
 
-                itemView.setDrawingCacheEnabled(true);
+                dragSrcItemView.setDrawingCacheEnabled(true);
 
-                Bitmap bm = Bitmap.createBitmap(itemView.getDrawingCache());
-                startDrag(bm, y);
+                Bitmap bm = Bitmap.createBitmap(dragSrcItemView.getDrawingCache());
+                startDrag(bm, y);       // 截断touch 按下消息之后，设置listView的状态
             }
         }
         return super.onInterceptTouchEvent(ev);
@@ -99,7 +100,7 @@ public class DragableItemListView extends ListView
     @Override
     public boolean onTouchEvent(MotionEvent ev)
     {
-        Debug.Log("onTouchEvent," + ev.getAction());
+        //        Debug.Log("onTouchEvent," + ev.getAction());
         if (_dragView == null || dragPos == INVALID_POSITION)
         {
             return super.onTouchEvent(ev);
@@ -108,16 +109,16 @@ public class DragableItemListView extends ListView
         int action = ev.getAction();
         switch (action)
         {
-            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_UP:             // 抬起
                 int upY = (int) ev.getY();
                 stopDrag();
                 onDrop(upY);
                 break;
-            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_MOVE:           // move 滑动
                 int moveY = (int) ev.getY();
                 onDrag(moveY);
                 break;
-            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_DOWN:           // 按下,在之前截断消息的时候监听
                 break;
             default:
                 break;
@@ -127,6 +128,7 @@ public class DragableItemListView extends ListView
 
     public void startDrag(Bitmap bm, int y)
     {
+        dragSrcItemView.setVisibility(View.INVISIBLE);
         _winLayoutParam = new WindowManager.LayoutParams();
         _winLayoutParam.gravity = Gravity.TOP;
         _winLayoutParam.x = 0;
@@ -150,7 +152,7 @@ public class DragableItemListView extends ListView
         int drag_top = y - dragPoint;
         if (_dragView != null && drag_top > 0)
         {
-            _winLayoutParam.alpha = 0.5f;
+            //            _winLayoutParam.alpha = 0.5f;
             _winLayoutParam.y = y - dragPoint + dragOffsetY;
             _winManager.updateViewLayout(_dragView, _winLayoutParam);
         }
@@ -176,7 +178,17 @@ public class DragableItemListView extends ListView
         }
 
         View view = getChildAt(dragPos - getFirstVisiblePosition());
+        //        view.setVisibility(View.INVISIBLE);
         setSelectionFromTop(dragPos, view.getTop() + curStep);
+        if (dragTarItemView != view)
+        {
+            dragTarItemView = view;
+            if (dragItemChangedListener != null)
+            {
+                int tarIndex = pointToPosition(0, view.getTop());
+                dragItemChangedListener.OnDragItemChanged(dragSrcPos, tarIndex);
+            }
+        }
     }
 
     public void stopDrag()
@@ -190,26 +202,32 @@ public class DragableItemListView extends ListView
 
     public void onDrop(int y)
     {
-        int tmpPos=pointToPosition(0,y);
-        if(tmpPos!=INVALID_POSITION)
+        int tmpPos = pointToPosition(0, y);
+        if (tmpPos != INVALID_POSITION)
         {
-            dragPos=tmpPos;
+            dragPos = tmpPos;
         }
 
-        if(y<getChildAt(0).getTop())
+        if (y < getChildAt(0).getTop())
         {
-            dragPos=0;
+            dragPos = 0;
+        } else if (y > getChildAt(getChildCount() - 1).getBottom())
+        {
+            dragPos = getAdapter().getCount() - 1;
         }
-        else if(y>getChildAt(getChildCount()-1).getBottom())
+        if (dragPos < getAdapter().getCount())
         {
-            dragPos=getAdapter().getCount()-1;
-        }
-        if(dragPos<getAdapter().getCount())
-        {
-            if(dragItemChangedListener!=null)
+            if (dragItemChangedListener != null)
             {
-                dragItemChangedListener.OnDragItemChanged(dragSrcPos,dragPos);
+                dragItemChangedListener.OnDragItemChanged(dragSrcPos, dragPos);
             }
         }
+
+        if (dragSrcItemView != null)
+        {
+            dragSrcItemView.setVisibility(View.VISIBLE);
+        }
+        dragSrcItemView = null;
+        dragTarItemView = null;
     }
 }
