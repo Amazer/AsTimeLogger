@@ -219,7 +219,7 @@ public class DragableItemListView extends ListView
         {
             if (dragItemChangedListener != null)
             {
-                dragItemChangedListener.OnDragItemChanged(dragSrcPos, dragPos);
+                dragItemChangedListener.OnDropList();
             }
         }
 

@@ -23,7 +23,7 @@ import static timelogger.cyc.astimelogger.MainActivity.dbHelper;
 public class EventManagerActivity extends Activity implements DragItemChangedListener
 {
     private DragableItemListView listview;
-    private List<Map>  datalist;
+    private List<Map> datalist;
     EventManagerListViewAdapter adapter;
 
     @Override
@@ -50,45 +50,55 @@ public class EventManagerActivity extends Activity implements DragItemChangedLis
     @Override
     public void OnDragItemChanged(int srcPos, int tarPos)
     {
-        Debug.Log("OnDragItemChanged,srcPos:" + srcPos + ",targetPos:" + tarPos);
-        View srcView=listview.getChildAt(srcPos);
-        if(srcView==null)
+        //        Debug.Log("OnDragItemChanged,srcPos:" + srcPos + ",targetPos:" + tarPos);
+        View srcView = listview.getChildAt(srcPos);
+        final View tarView = listview.getChildAt(tarPos);
+        if (srcView != null && tarView != null)
         {
-            Debug.Log("error,srcView==null");
-        }
-        final View tarView=listview.getChildAt(tarPos);
-        if(tarView==null)
-        {
-            Debug.Log("error,tarView==null");
-        }
-        if(srcView!=null&& tarView!=null)
-        {
-            Map srcData=datalist.get(srcPos);
-            Map tarData=datalist.get(tarPos);
-            datalist.set(srcPos,tarData);
-            datalist.set(tarPos,srcData);
-
-            final EventMgrItemViewHolder srcHolder=(EventMgrItemViewHolder) srcView.getTag();
-            final EventMgrItemViewHolder tarHoder=(EventMgrItemViewHolder) tarView.getTag();
-
-            HashMap t=srcHolder.data;
-            srcHolder.data=tarHoder.data;
-            tarHoder.data=t;
+            Debug.Log("OnDragItemChanged,srcPos:" + srcPos + ",targetPos:" + tarPos);
 
 
-            TranslateAnimation translateAnimation=new TranslateAnimation(srcView.getX(),tarView.getX(),srcView.getY(),tarView.getY());
-            translateAnimation.setDuration(100);
+            final EventMgrItemViewHolder srcHolder = (EventMgrItemViewHolder) srcView.getTag();
+            final EventMgrItemViewHolder tarHoder = (EventMgrItemViewHolder) tarView.getTag();
 
-            float srcX=srcView.getX();
-            float srcY=srcView.getY();
+            int srcIndex = srcHolder.position;
+            int tarIndex = tarHoder.position;
+
+            srcHolder.position = tarIndex;
+            tarHoder.position = srcIndex;
+
+            Map srcData = datalist.get(srcIndex);
+            Map tarData = datalist.get(tarIndex);
+
+            datalist.set(srcIndex, tarData);
+            datalist.set(tarIndex, srcData);
+
+            HashMap t = srcHolder.data;
+            srcHolder.data = tarHoder.data;
+            tarHoder.data = t;
+
+            // // TODO: 2017/10/30
+            // 1.动画的起始位置不对
+            // 2.item位置交换后，交换不回来了
+            TranslateAnimation translateAnimation = new TranslateAnimation(srcView.getX(), tarView.getX(), tarView.getTop(), tarView.getTop());
+            translateAnimation.setDuration(1000);
+
+            final float srcX = srcView.getX();
+            final float srcY = srcView.getY();
 
             srcView.setX(tarView.getX());
             srcView.setY(tarView.getY());
 
-            tarView.setX(srcX);
-            tarView.setY(srcY);
-
             tarView.startAnimation(translateAnimation);
+            tarView.postOnAnimation(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    tarView.setX(srcX);
+                    tarView.setY(srcY);
+                }
+            });
         }
     }
 
