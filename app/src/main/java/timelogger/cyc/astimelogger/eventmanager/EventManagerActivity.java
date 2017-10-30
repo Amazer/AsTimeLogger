@@ -80,8 +80,8 @@ public class EventManagerActivity extends Activity implements DragItemChangedLis
             // // TODO: 2017/10/30
             // 1.动画的起始位置不对
             // 2.item位置交换后，交换不回来了
-            TranslateAnimation translateAnimation = new TranslateAnimation(srcView.getX(), tarView.getX(), tarView.getTop(), tarView.getTop());
-            translateAnimation.setDuration(1000);
+            TranslateAnimation translateAnimation = new TranslateAnimation(srcView.getX(), tarView.getX(), srcView.getTop(), tarView.getTop());
+            translateAnimation.setDuration(500);
 
             final float srcX = srcView.getX();
             final float srcY = srcView.getY();
