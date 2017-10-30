@@ -7,4 +7,5 @@ package timelogger.cyc.astimelogger.view;
 public interface DragItemChangedListener
 {
     public void OnDragItemChanged(int dragSrcPos, int dragPos);
+    public void OnDropList();
 }

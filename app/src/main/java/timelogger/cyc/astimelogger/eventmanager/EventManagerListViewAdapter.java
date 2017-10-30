@@ -8,7 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import timelogger.cyc.astimelogger.R;
 
@@ -19,11 +21,10 @@ import timelogger.cyc.astimelogger.R;
 public class EventManagerListViewAdapter extends BaseAdapter
 {
     private Context context;
-    //    private List<Map> list;
-    private ArrayList<String> list;
+    private List<Map> list;
     private LayoutInflater inflate;
 
-    public EventManagerListViewAdapter(Context context, ArrayList<String> list)
+    public EventManagerListViewAdapter(Context context, List<Map> list)
     {
         this.context = context;
         inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -62,6 +63,8 @@ public class EventManagerListViewAdapter extends BaseAdapter
         EventMgrItemViewHolder viewHolder = (EventMgrItemViewHolder) view.getTag();
         viewHolder.position = i;
         viewHolder.textView.setText(String.valueOf(i));
+        viewHolder.data=(HashMap)list.get(i);
+        viewHolder.UpdateView();
         return view;
     }
 }
