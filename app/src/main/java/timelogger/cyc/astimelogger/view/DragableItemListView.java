@@ -68,7 +68,7 @@ public class DragableItemListView extends ListView
         {
             int x = (int) ev.getX();       // 获取与listView对应的x坐标
             int y = (int) ev.getY();
-
+//            Debug.Log("action down y :" + y);
             dragSrcPos = dragPos = pointToPosition(x, y);
             if (dragSrcPos == AdapterView.INVALID_POSITION)
             {

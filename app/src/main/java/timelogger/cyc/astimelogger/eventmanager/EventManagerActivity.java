@@ -78,27 +78,36 @@ public class EventManagerActivity extends Activity implements DragItemChangedLis
             tarHoder.data = t;
 
             // // TODO: 2017/10/30
-            // 1.动画的起始位置不对
+            // 1.动画的起始位置不对 --- checked :先设置位置，再相对于自己做动画
             // 2.item位置交换后，交换不回来了
-            TranslateAnimation translateAnimation = new TranslateAnimation(srcView.getX(), tarView.getX(), srcView.getTop(), tarView.getTop());
-            translateAnimation.setDuration(500);
 
             final float srcX = srcView.getX();
             final float srcY = srcView.getY();
 
-            srcView.setX(tarView.getX());
-            srcView.setY(tarView.getY());
+            final float tarX = tarView.getX();
+            final float tarY = tarView.getY();
 
+
+
+            srcView.setX(tarX);
+            srcView.setY(tarY);
+
+            tarView.setX(srcX);
+            tarView.setY(srcY);
+
+            // 如果不指定动画位置的type，默认是相对于自己位置的
+            TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, tarY - srcY, 0);
+            translateAnimation.setDuration(300);
             tarView.startAnimation(translateAnimation);
-            tarView.postOnAnimation(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    tarView.setX(srcX);
-                    tarView.setY(srcY);
-                }
-            });
+//            tarView.postOnAnimation(new Runnable()
+//            {
+//                @Override
+//                public void run()
+//                {
+//                    tarView.setX(srcX);
+//                    tarView.setY(srcY);
+//                }
+//            });
         }
     }
 
